@@ -1,43 +1,68 @@
 
 const companies = require('../../companies.json');
+const mongoose = require('mongoose');
+const Company = require('../models/Company');
 
 const Controller = {
-  index: (request, response) => {
-    response
-    .status(200)
-    .json({
-      companies
-    });
-  },
-  getById: (request, response) => {
-  const theCompany = companies.data.filter(company => {
-    return company.id === parseInt(request.params.companyId);
-  });
+  index: (request, response) => { // construir las quer
+    Company
+    .find()
+    .exec()
+    .then(data => {
+      response
+      .json({
+        companies: data
+      })
+        .status(200)
+      });
+    },
+    getById: (request, response) => {
 
-  response
-    .json({
-      data: theCompany[0]//llamar un array con posición 0
-    })
-    status(200);
-  },
-  //body
-  create: (request, response) => {
-     response
-       .json({
-         type: 'POST Request',
-         data: request.body
-       })
-       .status(200);
-   },
+      const { companyId } = request.params;
+
+      response
+        .json({
+          data: Company
+        })
+        .status(200);
+      },
+      create: (request, response) => {
+        const newCompany = new Company({
+          _id: new mongoose.Types.ObjectId(),
+          name: request.body.name
+        });
+
+        newCompany
+          .save()
+          .then(data => {
+            response
+            .json({
+              data: newCompany
+            })
+            .status(201);
+          })
+          .catch(error => {
+            response
+              .json({
+                message: error
+              })
+              .status(500)
+          });
+      },
 
 DeleteCompany: (request, response) => {
-   response
-   .json({
-     type: 'DELETE Request'
-   })
-   .status(200);
+  let DeleteCompany = request.params.companyId
+  Company.findById(companyId, (err) => {
+    if (err) response.status(500).send({message: `Error al borrar: ${err}`})
 
+    Company.remove(err => {
+      if(err) response.status(500).send({message: `Error al borrar: ${err}`})
+      rest.status(200).send({message: 'la Compañia ha sido eliminada'})
+
+      })
+    })
+
+  }
 }
-};
 
 module.exports = Controller;

@@ -2,10 +2,19 @@
 const express = require('express')
 const chalk = require('chalk');
 const logger = require('morgan');
+const mongoose = require('mongoose');
 
 const app = express();
 const indexFile = `${ __dirname }/index.html`;
 const PORT = process.env.PORT || 3000;
+
+mongoose.connect('mongodb://localhost:27017/apirest', {
+  useNewUrlParser: true
+});
+
+mongoose.connection.on('connected', () => { //conectar al servidor utilizando api utilizando mongoose
+  console.log('Succesful')
+});
 
 const api = require('./src/routes/api.js');
 
