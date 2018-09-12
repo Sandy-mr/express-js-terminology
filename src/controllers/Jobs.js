@@ -45,6 +45,22 @@ const Controller = {
           })
           .status(500);
       });
+  },
+  DeleteJob: (request, response) => {
+
+    const { jobId } = request.params;
+      console.log(request);
+      Job
+        .find({
+          _id: jobId
+        })
+        .remove(data => {
+          response
+            .json({
+              message: "Removed id successfuly"
+            })
+            .status(200);
+        });
   }
 };
 

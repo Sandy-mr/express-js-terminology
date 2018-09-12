@@ -14,9 +14,9 @@ app.delete('/companies/:companyId', Companies.DeleteCompany);
 
 app.get('/jobs', Jobs.index );
 app.get('/jobs/:jobId', Jobs.getById);
-app.post('/jobs/', Jobs.create);
-app.put('/jobs',  (request, response) => {});
-// app.delete('/jobs/:jobId', Jobs.DeleteCJob);
+app.post('/jobs', Jobs.create);
+app.put('/jobs', (request, response) => {});
+app.delete('/jobs/:jobId', Jobs.DeleteJob);
 
 
 module.exports = app;

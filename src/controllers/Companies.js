@@ -1,4 +1,3 @@
-
 const companies = require('../../companies.json');
 const mongoose = require('mongoose');
 const Company = require('../models/Company');
@@ -50,19 +49,36 @@ const Controller = {
           });
       },
 
-DeleteCompany: (request, response) => {
-  let DeleteCompany = request.params.companyId
-  Company.findById(companyId, (err) => {
-    if (err) response.status(500).send({message: `Error al borrar: ${err}`})
+// DeleteCompany: (request, response) => {
+//   let companyId = request.params.companyId
+//   Company.findById(companyId, (err) => {
+//     if (err) response.status(500).send({message: `Error al borrar: ${err}`})
+//
+//     Company.remove(err => {
+//       if(err) response.status(500).send({message: `Error al borrar: ${err}`})
+//       response.status(200).send({message: 'la Compañia ha sido eliminada'})
+//
+//       })
+//     })
+//
+//   }
+    DeleteCompany: (request, response) => {
 
-    Company.remove(err => {
-      if(err) response.status(500).send({message: `Error al borrar: ${err}`})
-      rest.status(200).send({message: 'la Compañia ha sido eliminada'})
+      const { companyId } = request.params;
+      console.log(request);
+      Company
+        .find({
+          _id: companyId
+        })
+        .remove(data => {
+          response
+            .json({
+              message: "Removed id successfuly"
+            })
+            .status(200);
+        });
+    }
 
-      })
-    })
-
-  }
-}
+};
 
 module.exports = Controller;
